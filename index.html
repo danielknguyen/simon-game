@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Simon-Game</title>
+	<link rel="stylesheet" href="styles/style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="styles/mobile.css">
+	<link href="https://fonts.googleapis.com/css?family=Patua+One" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Artifika" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+</head>
+<body>
+	<p id="title">Simon Game</p>
+	<div id="simon-container" class="container">
+		<button id="red" class="square" value="red"></button>
+		<button id="blue" class="square" value="blue"></button>
+		<button id="green" class="square" value="green"></button>
+		<button id="yellow" class="square" value="yellow"></button>
+		<div id="controls">
+			<div id="current-steps">20</div>
+			<div class="menu">
+				<p class="menu-description">On/Off</p>
+				<button id="on" class="control-buttons"></button>
+			</div>
+			<div class="menu">
+				<p class="menu-description">Reset</p>
+				<button id="reset" class="control-buttons"></button>
+			</div>
+			<div class="menu">
+				<p class="menu-description">Strict</p>
+				<button id="strict" class="control-buttons"></button>
+			</div>
+			<div id="winner-description"></div>
+		</div>
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script type="text/javascript" src="script.js"></script>	
+</body>
+</html>
