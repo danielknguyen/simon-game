@@ -30,6 +30,9 @@
 	width:275px;
 	height:250px;
 }
+.square:focus {
+
+}
 .square:focus,.control-buttons:focus {
 	outline:none;
 }

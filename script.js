@@ -40,8 +40,13 @@ $(document).ready(function(){
 		$('#current-steps').text(currentSteps);
 		usersTurn = false;
 		for(let j = 0; j < randomSeries.length; j++){
+			// create a pressed button effect
 			setTimeout(function(){
 				clickSquare(randomSeries[j]);
+				$('#'+randomSeries[j]).css('opacity','0.9');
+				setTimeout(function(){
+					$('#'+randomSeries[j]).css('opacity','1');
+				},200);
 			},j*1000);
 		}
 		// as soon as the computer's turn is done allow the user to start
@@ -75,6 +80,11 @@ $(document).ready(function(){
 		// stored value of the simon square button that was clicked by user
 		var simonSquareButtonClicked = $(this).val();
 		// allow users to push value to user series array if usersTurn is true
+		// create a pressed button effect
+		$('#' + simonSquareButtonClicked).css('opacity','0.9');
+		setTimeout(function(){
+			$('#' + simonSquareButtonClicked).css('opacity','1');
+		},200);
 		if(usersTurn){
 			// beeps when user clicks a button
 			clickSquare(simonSquareButtonClicked);
