@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	// array holding default series to follow; array to push new patterns into
-	var randomSeries = ['red','blue','green'];
+	var randomSeries = [];
 	// array to store the user's series to see if it matches with random series array
 	var userSeries = [];
 	// see what the current total step is for each round
@@ -8,7 +8,9 @@ $(document).ready(function(){
 	// switch to turn on strict mode
 	var strictMode = false;
 	// switch to disable user's turn
-	var usersTurn = true;
+	var usersTurn = false;
+	// disable on off switch
+	var gameOn = false;
 	// audio for specific buttons pressed and if game ends
 	var redBeep = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound1.mp3');
 	var blueBeep = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound2.mp3');
@@ -32,7 +34,6 @@ $(document).ready(function(){
 		console.log(randomSeries);
 		console.log(currentSteps);
 	};
-	makePatternAndRunGame();
 	// this function will run the game
 	function runSimonGame(){
 		// input current steps on game screen
@@ -124,7 +125,7 @@ $(document).ready(function(){
 							restartRound();
 							console.log('it did not match');
 						}
-					},200);
+					},600);
 				}
 			} else {
 				// if userSeries array length does not match randomSeries array than check if the current items in user series match random series
@@ -146,6 +147,7 @@ $(document).ready(function(){
 		userSeries = [];
 		currentSteps = randomSeries.length;
 		var strictMode = false;
+		gameOn = true;
 		makePatternAndRunGame();
 		usersTurn = true;
 		console.log('randomSeries: ' + randomSeries);
@@ -163,8 +165,17 @@ $(document).ready(function(){
 		console.log(currentSteps);	
 	}
 	// reset button
-	$('#reset').on('click',function(){
-		resetGame();
+	// $('#reset').on('click',function(){
+	// 	resetGame();
+	// });
+	
+	// start button
+	$('#on').on('click',function(){
+		if(!gameOn){
+			gameOn = true;
+			setTimeout(function(){
+				makePatternAndRunGame();
+			},600);
+		}
 	});
-
 });
