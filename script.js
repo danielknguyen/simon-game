@@ -40,7 +40,7 @@ $(document).ready(function(){
 		$('#current-steps').text(currentSteps);
 		usersTurn = false;
 		for(let j = 0; j < randomSeries.length; j++){
-			// create a pressed button effect
+			// create a pressed button effect; when pressed down square color turns lighter and returns back to normal
 			setTimeout(function(){
 				clickSquare(randomSeries[j]);
 				$('#'+randomSeries[j]).css('opacity','0.9');
@@ -52,7 +52,7 @@ $(document).ready(function(){
 		// as soon as the computer's turn is done allow the user to start
 		setTimeout(function(){
 			usersTurn = true;
-		},randomSeries.length*1000);
+		},randomSeries.length*500);
 	};
 	//play sound for each square
 	function clickSquare(square){
@@ -80,7 +80,7 @@ $(document).ready(function(){
 		// stored value of the simon square button that was clicked by user
 		var simonSquareButtonClicked = $(this).val();
 		// allow users to push value to user series array if usersTurn is true
-		// create a pressed button effect
+		// create a pressed button effect; when pressed down square color turns lighter and returns back to normal
 		$('#' + simonSquareButtonClicked).css('opacity','0.9');
 		setTimeout(function(){
 			$('#' + simonSquareButtonClicked).css('opacity','1');
@@ -116,11 +116,11 @@ $(document).ready(function(){
 							setTimeout(function(){
 								makePatternAndRunGame();
 							},1000);
-							usersTurn = true;
 							console.log('it matched almost to 20!');
 						}
-					},1500);
+					},1000);
 				} else {
+					usersTurn = false;
 					setTimeout(function(){
 						// if user series array does not match random series array check if the game is on strict mode
 						if(strictMode){
@@ -135,18 +135,19 @@ $(document).ready(function(){
 							restartRound();
 							console.log('it did not match');
 						}
-					},600);
+					},1500);
 				}
 			} else {
 				// if userSeries array length does not match randomSeries array than check if the current items in user series match random series
 				if(!checkIfArrayMatches(userSeries,randomSeries)){
-					// if the item does not match than reset round
-					setTimeout(function(){
+						usersTurn = false;
 						errorSound.play();
-						$('#current-steps').text('!!');
-						restartRound();
-						console.log('square did not match');
-					},1500);
+						// if the item does not match than reset round
+						setTimeout(function(){
+							$('#current-steps').text('!!');
+							restartRound();
+							console.log('square did not match');
+						},1500);
 				}
 			}
 		}
@@ -168,9 +169,7 @@ $(document).ready(function(){
 	function restartRound(){
 		userSeries = [];
 		currentSteps = randomSeries.length;
-		setTimeout(function(){
-			runSimonGame();
-		},1200);
+		runSimonGame();
 		console.log(randomSeries);
 		console.log(currentSteps);	
 	}
