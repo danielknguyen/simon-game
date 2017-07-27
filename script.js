@@ -9,11 +9,14 @@ $(document).ready(function(){
 	var strictMode = false;
 	// switch to disable user's turn
 	var usersTurn = true;
-	// play a beep when specific buttons are pressed 
+	// audio for specific buttons pressed and if game ends
 	var redBeep = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound1.mp3');
 	var blueBeep = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound2.mp3');
 	var greenBeep = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound3.mp3');
-	var yellowBeep = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound4.mp3');	
+	var yellowBeep = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound4.mp3');
+	var errorSound = new Audio('buzzSound.flac');	
+	var winnerSound = new Audio('winnerSound.flac');
+	var nextRound = new Audio('bell.wav');
 	// function that will create the pattern to follow, push it into randomSeries array and start the round;
 	function makePatternAndRunGame(){
 		// array that holds the values of each simon square;
@@ -32,11 +35,18 @@ $(document).ready(function(){
 	makePatternAndRunGame();
 	// this function will run the game
 	function runSimonGame(){
-		for(let i = 0; i < randomSeries.length; i++){
+		// input current steps on game screen
+		$('#current-steps').text(currentSteps);
+		usersTurn = false;
+		for(let j = 0; j < randomSeries.length; j++){
 			setTimeout(function(){
-				clickSquare(randomSeries[i]);
-			},i*1000);
+				clickSquare(randomSeries[j]);
+			},j*1000);
 		}
+		// as soon as the computer's turn is done allow the user to start
+		setTimeout(function(){
+			usersTurn = true;
+		},randomSeries.length*1000);
 	};
 	//play sound for each square
 	function clickSquare(square){
@@ -75,37 +85,58 @@ $(document).ready(function(){
 			if(userSeries.length === currentSteps){
 				// if user series array length matches disable users turn
 				usersTurn = false;
-				setTimeout(function(){
-					console.log(userSeries);
-					console.log(randomSeries);
-					console.log(checkIfArrayMatches(userSeries,randomSeries));
-					// if array matches check if it is the winning round
-					if(checkIfArrayMatches(userSeries,randomSeries)){
-						// if true check if current steps is equal to 20(winning round)
+				console.log(userSeries);
+				console.log(randomSeries);
+				console.log(checkIfArrayMatches(userSeries,randomSeries));
+				// if array matches check if it is the winning round
+				if(checkIfArrayMatches(userSeries,randomSeries)){
+					// if true check if current steps is equal to 20(winning round)
+					setTimeout(function(){
 						if(currentSteps === 20){
 							// let's user know that they have won the game
+							winnerSound.play();
 							$('#winner-description').text('Winner!');
 							// reset the game
 							resetGame();
 						} else {
 							// if current steps does not equal 20 reset user series array, make next pattern and start next round
 							userSeries = [];
-							makePatternAndRunGame();
+							nextRound.play();
+							setTimeout(function(){
+								makePatternAndRunGame();
+							},1000);
 							usersTurn = true;
 							console.log('it matched almost to 20!');
 						}
-					} else {
+					},1500);
+				} else {
+					setTimeout(function(){
 						// if user series array does not match random series array check if the game is on strict mode
 						if(strictMode){
 							// if strict mode is on(true) reset game
+							$('#current-steps').text('!!');
+							errorSound.play();
 							resetGame();
 						} else {
 							// if strict mode is not on then reset user series array and run the same round
+							errorSound.play();
+							$('#current-steps').text('!!');
+							restartRound();
 							console.log('it did not match');
-							resetGame();
 						}
-					}
-				},2000);	
+					},200);
+				}
+			} else {
+				// if userSeries array length does not match randomSeries array than check if the current items in user series match random series
+				if(!checkIfArrayMatches(userSeries,randomSeries)){
+					// if the item does not match than reset round
+					setTimeout(function(){
+						errorSound.play();
+						$('#current-steps').text('!!');
+						restartRound();
+						console.log('square did not match');
+					},1500);
+				}
 			}
 		}
 	});
@@ -121,8 +152,19 @@ $(document).ready(function(){
 		console.log('userSeries: ' + userSeries);
 		console.log('currentSteps: ' + currentSteps);
 	};
+	// restart the round
+	function restartRound(){
+		userSeries = [];
+		currentSteps = randomSeries.length;
+		setTimeout(function(){
+			runSimonGame();
+		},1200);
+		console.log(randomSeries);
+		console.log(currentSteps);	
+	}
 	// reset button
 	$('#reset').on('click',function(){
 		resetGame();
 	});
+
 });
