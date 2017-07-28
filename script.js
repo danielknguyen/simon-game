@@ -11,6 +11,7 @@ $(document).ready(function(){
 	var usersTurn = false;
 	// disable on off switch
 	var gameOn = false;
+	var computerOn = false;
 	// audio for specific buttons pressed and if game ends
 	var redBeep = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound1.mp3');
 	var blueBeep = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound2.mp3');
@@ -36,6 +37,7 @@ $(document).ready(function(){
 	};
 	// this function will run the game
 	function runSimonGame(){
+		computerOn = true;
 		// input current steps on game screen
 		$('#current-steps').text(currentSteps);
 		usersTurn = false;
@@ -43,7 +45,7 @@ $(document).ready(function(){
 			// create a pressed button effect; when pressed down square color turns lighter and returns back to normal
 			setTimeout(function(){
 				clickSquare(randomSeries[j]);
-				$('#'+randomSeries[j]).css('opacity','0.9');
+				$('#'+randomSeries[j]).css('opacity','0.7');
 				setTimeout(function(){
 					$('#'+randomSeries[j]).css('opacity','1');
 				},200);
@@ -52,6 +54,7 @@ $(document).ready(function(){
 		// as soon as the computer's turn is done allow the user to start
 		setTimeout(function(){
 			usersTurn = true;
+			computerOn = false;
 		},randomSeries.length*500);
 	};
 	//play sound for each square
@@ -80,16 +83,16 @@ $(document).ready(function(){
 		// stored value of the simon square button that was clicked by user
 		var simonSquareButtonClicked = $(this).val();
 		// allow users to push value to user series array if usersTurn is true
-		// create a pressed button effect; when pressed down square color turns lighter and returns back to normal
-		$('#' + simonSquareButtonClicked).css('opacity','0.9');
-		setTimeout(function(){
-			$('#' + simonSquareButtonClicked).css('opacity','1');
-		},200);
-		if(usersTurn){
+		if(usersTurn && !computerOn){
 			// beeps when user clicks a button
 			clickSquare(simonSquareButtonClicked);
 			// push simon square button into user series array
 			userSeries.push(simonSquareButtonClicked);
+			// create a pressed button effect; when pressed down square color turns lighter and returns back to normal
+			$('#' + simonSquareButtonClicked).css('opacity','0.7');
+			setTimeout(function(){
+				$('#' + simonSquareButtonClicked).css('opacity','1');
+			},200);
 			console.log(userSeries);
 			console.log(userSeries.length);
 			// if the length of user series array matches current steps...
@@ -135,31 +138,31 @@ $(document).ready(function(){
 							restartRound();
 							console.log('it did not match');
 						}
-					},1500);
+					},1000);
 				}
 			} else {
 				// if userSeries array length does not match randomSeries array than check if the current items in user series match random series
 				if(!checkIfArrayMatches(userSeries,randomSeries)){
 						usersTurn = false;
+						$('#current-steps').text('!!');
 						errorSound.play();
 						// if the item does not match than reset round
 						setTimeout(function(){
-							$('#current-steps').text('!!');
 							restartRound();
-							console.log('square did not match');
-						},1500);
+						},1000);
+						console.log('square did not match');
 				}
 			}
 		}
 	});
 	// reset the game
 	function resetGame(){
-		randomSeries = ['red','blue','green'];
+		randomSeries = [];
 		userSeries = [];
 		currentSteps = randomSeries.length;
+		$('#current-steps').text('--');
 		var strictMode = false;
-		gameOn = true;
-		makePatternAndRunGame();
+		gameOn = false;
 		usersTurn = true;
 		console.log('randomSeries: ' + randomSeries);
 		console.log('userSeries: ' + userSeries);
@@ -169,15 +172,19 @@ $(document).ready(function(){
 	function restartRound(){
 		userSeries = [];
 		currentSteps = randomSeries.length;
-		runSimonGame();
+		setTimeout(function(){
+			runSimonGame();
+		},1000);
 		console.log(randomSeries);
 		console.log(currentSteps);	
 	}
 	// reset button
-	// $('#reset').on('click',function(){
-	// 	resetGame();
-	// });
-	
+	$('#reset').on('click',function(){
+		$.each($('audio'),function(){
+    	this.pause();
+		});
+		resetGame();
+	});
 	// start button
 	$('#on').on('click',function(){
 		if(!gameOn){
