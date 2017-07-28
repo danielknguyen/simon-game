@@ -111,7 +111,9 @@ $(document).ready(function(){
 							winnerSound.play();
 							$('#winner-description').text('Winner!');
 							// reset the game
-							resetGame();
+							setTimeout(function(){
+								resestGame();
+							},1000);
 						} else {
 							// if current steps does not equal 20 reset user series array, make next pattern and start next round
 							userSeries = [];
@@ -125,32 +127,32 @@ $(document).ready(function(){
 				} else {
 					usersTurn = false;
 					setTimeout(function(){
-						// if user series array does not match random series array check if the game is on strict mode
-						if(strictMode){
-							// if strict mode is on(true) reset game
-							$('#current-steps').text('!!');
-							errorSound.play();
-							resetGame();
+						// if strict mode is not on then reset user series array and run the same round else reset game
+						errorSound.play();
+						if(!strictMode){
+							restartRound();	
 						} else {
-							// if strict mode is not on then reset user series array and run the same round
-							errorSound.play();
-							$('#current-steps').text('!!');
-							restartRound();
-							console.log('it did not match');
+							resetGame();
 						}
+						console.log('it did not match');
 					},1000);
 				}
 			} else {
 				// if userSeries array length does not match randomSeries array than check if the current items in user series match random series
 				if(!checkIfArrayMatches(userSeries,randomSeries)){
-						usersTurn = false;
-						$('#current-steps').text('!!');
-						errorSound.play();
-						// if the item does not match than reset round
-						setTimeout(function(){
-							restartRound();
-						},1000);
-						console.log('square did not match');
+					usersTurn = false;
+					$('#current-steps').text('!!');
+					errorSound.play();
+					// if the item does not match than reset round
+					setTimeout(function(){
+						// if strict mode is not on then reset user series array and run the same round else reset game
+						if(!strictMode){
+							restartRound();	
+						} else {
+							resetGame();
+						}
+					},1000);
+					console.log('square did not match');
 				}
 			}
 		}
@@ -192,6 +194,18 @@ $(document).ready(function(){
 			setTimeout(function(){
 				makePatternAndRunGame();
 			},600);
+		}
+	});
+	// if strict mode is turned on game will reset if wrong pattern is put in
+	$('#strict').on('click',function(){
+		if(!strictMode){
+			strictMode = true;
+			$('#strict').css('opacity','1');
+			console.log(strictMode);
+		} else {
+			strictMode = false;
+			$('#strict').css('opacity','0.8');
+			console.log(strictMode);
 		}
 	});
 });
