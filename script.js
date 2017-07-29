@@ -17,8 +17,8 @@ $(document).ready(function(){
 	var blueBeep = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound2.mp3');
 	var greenBeep = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound3.mp3');
 	var yellowBeep = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound4.mp3');
-	var errorSound = new Audio('buzzSound.flac');	
-	var winnerSound = new Audio('winnerSound.flac');
+	var errorSound = new Audio('buzzSound.wav');	
+	var winnerSound = new Audio('winnerSound.wav');
 	var nextRound = new Audio('bell.wav');
 	// function that will create the pattern to follow, push it into randomSeries array and start the round;
 	function makePatternAndRunGame(){
@@ -79,8 +79,8 @@ $(document).ready(function(){
 		return true;
 	};
 	// prevents zooming
-	$('.square').bind('touchend',function(e){
-		e.preventDefault();
+	// $('.square').bind('touchend',function(e){
+	// 	e.preventDefault();
 		// pushes the simon square button value that user clicks into user series checkIfArrayMatches
 		$('.square').on('click',function(){
 			// stored value of the simon square button that was clicked by user
@@ -161,8 +161,8 @@ $(document).ready(function(){
 				}
 			}
 		});
-	$(this).click();
-	})
+	// $(this).click();
+	// })
 	// reset the game
 	function resetGame(){
 		randomSeries = [];
