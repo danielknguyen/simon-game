@@ -1,41 +1,41 @@
 #simon-container {
-	border:1px solid black;
 	padding:0;
 	width:auto;
-	height:1200px;
+	height:1400px;
 }
 #controls {
-	width:225px;
-	height:190px;
-	margin:-290px 0;
-	margin-left:85px;
+	width:500px;
+	height:350px;
+	margin:-780px 0;
+	margin-left:240px;
 }
 #title {
-	font-size:3.5em;
+	font-size:7em;
 }
 .square {
-	width:485px;
-	height:500px;
+	width:488px;
+	height:600px;
 }
 .menu {
-	width:70px;
+	width:162px;
 	height:80px;
 	margin:0 auto;
 }
 .control-buttons {
-	width:40px;
-	height:40px;
+	width:80px;
+	height:80px;
 }
 .menu-description {
-	font-size:1.5em;
+	font-size:3em;
 }
 #current-steps {
-	width:40px;
-	height:40px;
-	font-size:1.5em;
-	line-height:33px;
+	width:80px;
+	height:80px;
+	font-size:4em;
+	line-height:65px;
 }
 #winner-description {
+	padding-top:20px;
 	width:200px;
-	font-size:1.5em;
+	font-size:3em;
 }
