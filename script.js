@@ -83,11 +83,10 @@ $(document).ready(function(){
 	// 	e.preventDefault();
 		// pushes the simon square button value that user clicks into user series checkIfArrayMatches
 		$('.square').on('click',function(e){
-			e.preventDefault();
 			// stored value of the simon square button that was clicked by user
 			var simonSquareButtonClicked = $(this).val();
 			// allow users to push value to user series array if usersTurn is true
-			if(usersTurn && !computerOn){
+			if(usersTurn && !computerOn && gameOn){
 				// beeps when user clicks a button
 				clickSquare(simonSquareButtonClicked);
 				// push simon square button into user series array
@@ -168,14 +167,15 @@ $(document).ready(function(){
 	// })
 	// reset the game
 	function resetGame(){
+		gameOn = false;
+		usersTurn = false;
+		strictMode = false;
 		randomSeries = [];
 		userSeries = [];
 		currentSteps = randomSeries.length;
 		$('#current-steps').text('--');
 		$('#winner-description').text('');
-		gameOn = false;
-		usersTurn = false;
-		strictMode = false;
+		$('#strict').css('opacity','1');
 		$('#strict').css('opacity','0.8');
 		console.log('randomSeries: ' + randomSeries);
 		console.log('userSeries: ' + userSeries);
