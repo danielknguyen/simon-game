@@ -1,7 +1,7 @@
 #simon-container {
 	padding:0;
-	width:auto;
-	height:1400px;
+	width:940px;
+	height:1320px;
 }
 #controls {
 	width:500px;
@@ -13,8 +13,8 @@
 	font-size:7em;
 }
 .square {
-	width:488px;
-	height:600px;
+	width:467px;
+	height:580px;
 }
 .menu {
 	width:162px;
