@@ -78,86 +78,91 @@ $(document).ready(function(){
 		};
 		return true;
 	};
-	// pushes the simon square button value that user clicks into user series checkIfArrayMatches
-	$('.square').on('click',function(){
-		// stored value of the simon square button that was clicked by user
-		var simonSquareButtonClicked = $(this).val();
-		// allow users to push value to user series array if usersTurn is true
-		if(usersTurn && !computerOn){
-			// beeps when user clicks a button
-			clickSquare(simonSquareButtonClicked);
-			// push simon square button into user series array
-			userSeries.push(simonSquareButtonClicked);
-			// create a pressed button effect; when pressed down square color turns lighter and returns back to normal
-			$('#' + simonSquareButtonClicked).css('opacity','0.7');
-			setTimeout(function(){
-				$('#' + simonSquareButtonClicked).css('opacity','1');
-			},200);
-			console.log(userSeries);
-			console.log(userSeries.length);
-			// if the length of user series array matches current steps...
-			if(userSeries.length === currentSteps){
-				// if user series array length matches disable users turn
-				usersTurn = false;
+	// prevents zooming
+	$('.square').bind('touchend',function(e){
+		e.preventDefault();
+		// pushes the simon square button value that user clicks into user series checkIfArrayMatches
+		$('.square').on('click',function(){
+			// stored value of the simon square button that was clicked by user
+			var simonSquareButtonClicked = $(this).val();
+			// allow users to push value to user series array if usersTurn is true
+			if(usersTurn && !computerOn){
+				// beeps when user clicks a button
+				clickSquare(simonSquareButtonClicked);
+				// push simon square button into user series array
+				userSeries.push(simonSquareButtonClicked);
+				// create a pressed button effect; when pressed down square color turns lighter and returns back to normal
+				$('#' + simonSquareButtonClicked).css('opacity','0.7');
+				setTimeout(function(){
+					$('#' + simonSquareButtonClicked).css('opacity','1');
+				},200);
 				console.log(userSeries);
-				console.log(randomSeries);
-				console.log(checkIfArrayMatches(userSeries,randomSeries));
-				// if array matches check if it is the winning round
-				if(checkIfArrayMatches(userSeries,randomSeries)){
+				console.log(userSeries.length);
+				// if the length of user series array matches current steps...
+				if(userSeries.length === currentSteps){
+					// if user series array length matches disable users turn
 					usersTurn = false;
-					// if true check if current steps is equal to 20(winning round)
-					setTimeout(function(){
-						if(currentSteps === 20){
-							// let's user know that they have won the game
-							winnerSound.play();
-							$('#winner-description').text('Winner!');
-							// reset the game
-							setTimeout(function(){
+					console.log(userSeries);
+					console.log(randomSeries);
+					console.log(checkIfArrayMatches(userSeries,randomSeries));
+					// if array matches check if it is the winning round
+					if(checkIfArrayMatches(userSeries,randomSeries)){
+						usersTurn = false;
+						// if true check if current steps is equal to 20(winning round)
+						setTimeout(function(){
+							if(currentSteps === 20){
+								// let's user know that they have won the game
+								winnerSound.play();
+								$('#winner-description').text('Winner!');
+								// reset the game
+								setTimeout(function(){
+									resetGame();
+								},1000);
+							} else {
+								// if current steps does not equal 20 reset user series array, make next pattern and start next round
+								userSeries = [];
+								nextRound.play();
+								setTimeout(function(){
+									makePatternAndRunGame();
+								},1000);
+								console.log('it matched almost to 20!');
+							}
+						},1000);
+					} else {
+						usersTurn = false;
+						setTimeout(function(){
+							// if strict mode is not on then reset user series array and run the same round else reset game
+							errorSound.play();
+							if(!strictMode){
+								restartRound();	
+							} else {
 								resetGame();
-							},1000);
-						} else {
-							// if current steps does not equal 20 reset user series array, make next pattern and start next round
-							userSeries = [];
-							nextRound.play();
-							setTimeout(function(){
-								makePatternAndRunGame();
-							},1000);
-							console.log('it matched almost to 20!');
-						}
-					},1000);
+							}
+							console.log('it did not match');
+						},1000);
+					}
 				} else {
-					usersTurn = false;
-					setTimeout(function(){
-						// if strict mode is not on then reset user series array and run the same round else reset game
+					// if userSeries array length does not match randomSeries array than check if the current items in user series match random series
+					if(!checkIfArrayMatches(userSeries,randomSeries)){
+						usersTurn = false;
+						$('#current-steps').text('!!');
 						errorSound.play();
-						if(!strictMode){
-							restartRound();	
-						} else {
-							resetGame();
-						}
-						console.log('it did not match');
-					},1000);
-				}
-			} else {
-				// if userSeries array length does not match randomSeries array than check if the current items in user series match random series
-				if(!checkIfArrayMatches(userSeries,randomSeries)){
-					usersTurn = false;
-					$('#current-steps').text('!!');
-					errorSound.play();
-					// if the item does not match than reset round
-					setTimeout(function(){
-						// if strict mode is not on then reset user series array and run the same round else reset game
-						if(!strictMode){
-							restartRound();	
-						} else {
-							resetGame();
-						}
-					},1000);
-					console.log('square did not match');
+						// if the item does not match than reset round
+						setTimeout(function(){
+							// if strict mode is not on then reset user series array and run the same round else reset game
+							if(!strictMode){
+								restartRound();	
+							} else {
+								resetGame();
+							}
+						},1000);
+						console.log('square did not match');
+					}
 				}
 			}
-		}
-	});
+		});
+	$(this).click();
+	})
 	// reset the game
 	function resetGame(){
 		randomSeries = [];
