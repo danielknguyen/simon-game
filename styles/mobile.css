@@ -1,0 +1,41 @@
+#simon-container {
+	border:1px solid black;
+	padding:0;
+	width:auto;
+	height:1200px;
+}
+#controls {
+	width:225px;
+	height:190px;
+	margin:-290px 0;
+	margin-left:85px;
+}
+#title {
+	font-size:3.5em;
+}
+.square {
+	width:485px;
+	height:500px;
+}
+.menu {
+	width:70px;
+	height:80px;
+	margin:0 auto;
+}
+.control-buttons {
+	width:40px;
+	height:40px;
+}
+.menu-description {
+	font-size:1.5em;
+}
+#current-steps {
+	width:40px;
+	height:40px;
+	font-size:1.5em;
+	line-height:33px;
+}
+#winner-description {
+	width:200px;
+	font-size:1.5em;
+}
