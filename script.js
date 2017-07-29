@@ -55,7 +55,7 @@ $(document).ready(function(){
 		setTimeout(function(){
 			usersTurn = true;
 			computerOn = false;
-		},randomSeries.length*500);
+		},randomSeries.length*1000);
 	};
 	//play sound for each square
 	function clickSquare(square){
@@ -104,6 +104,7 @@ $(document).ready(function(){
 				console.log(checkIfArrayMatches(userSeries,randomSeries));
 				// if array matches check if it is the winning round
 				if(checkIfArrayMatches(userSeries,randomSeries)){
+					usersTurn = false;
 					// if true check if current steps is equal to 20(winning round)
 					setTimeout(function(){
 						if(currentSteps === 20){
@@ -112,7 +113,7 @@ $(document).ready(function(){
 							$('#winner-description').text('Winner!');
 							// reset the game
 							setTimeout(function(){
-								resestGame();
+								resetGame();
 							},1000);
 						} else {
 							// if current steps does not equal 20 reset user series array, make next pattern and start next round
@@ -163,12 +164,15 @@ $(document).ready(function(){
 		userSeries = [];
 		currentSteps = randomSeries.length;
 		$('#current-steps').text('--');
-		var strictMode = false;
+		$('#winner-description').text('');
 		gameOn = false;
-		usersTurn = true;
+		usersTurn = false;
+		strictMode = false;
+		$('#strict').css('opacity','0.8');
 		console.log('randomSeries: ' + randomSeries);
 		console.log('userSeries: ' + userSeries);
 		console.log('currentSteps: ' + currentSteps);
+		console.log(strictMode);
 	};
 	// restart the round
 	function restartRound(){

@@ -3,7 +3,7 @@
 	margin:0 auto;
 	margin-top:25px;
 	width:600px;
-	height:550px;
+	height:615px;
 }
 #controls {
 	position:relative;
@@ -29,9 +29,6 @@
 	position:relative;
 	width:275px;
 	height:250px;
-}
-.square:focus {
-
 }
 .square:focus,.control-buttons:focus {
 	outline:none;
@@ -87,7 +84,7 @@
 #winner-description {
 	margin:10px auto 0 auto;
 	width:200px;
-	height:40px;
+	line-height:40px;
 	font-size:2em;
 	text-align:center;
 	font-family: 'Merriweather', serif;
@@ -101,4 +98,90 @@
 #strict {
 	background-color:#F9690E;
 	opacity:0.8;
+}
+@media(max-width:405px){
+	#simon-container {
+		padding:0;
+		width:450px;
+		height:600px;
+	}
+	#controls {
+		width:225px;
+		height:190px;
+		margin:-265px 0;
+		margin-left:85px;
+	}
+	#title {
+		text-align:center;
+		font-size:3.5em;
+		margin-right:35px;
+	}
+	.square {
+		width:197px;
+		height:175px;
+	}
+	.menu {
+		width:70px;
+		height:80px;
+		margin:0 auto;
+	}
+	.control-buttons {
+		width:40px;
+		height:40px;
+	}
+	.menu-description {
+		font-size:1.5em;
+	}
+	#current-steps {
+		width:40px;
+		height:40px;
+		font-size:1.5em;
+		line-height:33px;
+	}
+	#winner-description {
+		width:200px;
+		font-size:1.5em;
+	}
+}
+@media(min-width:406px) and (max-width: 570px){
+	#simon-container {
+		padding:0;
+		width:406px;
+		height:550px;
+	}
+	#controls {
+		width:225px;
+		height:190px;
+		margin:-290px 0;
+		margin-left:85px;
+	}
+	#title {
+		font-size:3.5em;
+	}
+	.square {
+		width:200px;
+		height:200px;
+	}
+	.menu {
+		width:70px;
+		height:80px;
+		margin:0 auto;
+	}
+	.control-buttons {
+		width:40px;
+		height:40px;
+	}
+	.menu-description {
+		font-size:1.5em;
+	}
+	#current-steps {
+		width:40px;
+		height:40px;
+		font-size:1.5em;
+		line-height:33px;
+	}
+	#winner-description {
+		width:200px;
+		font-size:1.5em;
+	}
 }
