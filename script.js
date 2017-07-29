@@ -82,7 +82,8 @@ $(document).ready(function(){
 	// $('.square').bind('touchend',function(e){
 	// 	e.preventDefault();
 		// pushes the simon square button value that user clicks into user series checkIfArrayMatches
-		$('.square').on('click',function(){
+		$('.square').on('click',function(e){
+			e.preventDefault();
 			// stored value of the simon square button that was clicked by user
 			var simonSquareButtonClicked = $(this).val();
 			// allow users to push value to user series array if usersTurn is true
@@ -130,6 +131,7 @@ $(document).ready(function(){
 						},1000);
 					} else {
 						usersTurn = false;
+						$('#current-steps').text('!!');
 						setTimeout(function(){
 							// if strict mode is not on then reset user series array and run the same round else reset game
 							errorSound.play();
@@ -138,6 +140,7 @@ $(document).ready(function(){
 							} else {
 								resetGame();
 							}
+
 							console.log('it did not match');
 						},1000);
 					}
@@ -183,6 +186,7 @@ $(document).ready(function(){
 	function restartRound(){
 		userSeries = [];
 		currentSteps = randomSeries.length;
+		$('#current-steps').text(currentSteps);
 		setTimeout(function(){
 			runSimonGame();
 		},1000);
